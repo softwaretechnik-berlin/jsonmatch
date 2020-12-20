@@ -1,5 +1,7 @@
 package jsonmatch;
 
+import jsonmatch.console.Color;
+
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -29,10 +31,18 @@ public class ObjectResult implements Result {
             "{\n" +
                 indent(
                     fieldResults.stream()
-                    .map(entry -> "\"" + entry.getKey() + "\": " + entry.getValue().visualize())
-                    .collect(Collectors.joining(",\n"))
+                        .map(entry -> {
+                            if (entry.getValue() instanceof MissingFieldResult)
+                                return Color.RED.render("\"" + entry.getKey() + "\": ") + entry.getValue().visualize();
+                                else
+                                return
+
+                                    "\"" + entry.getKey() + "\": " + entry.getValue().visualize();
+                            }
+                        )
+                        .collect(Collectors.joining(",\n"))
                 ) +
                 "\n}\n";
     }
-    
+
 }

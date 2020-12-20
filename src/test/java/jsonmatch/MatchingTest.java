@@ -1,19 +1,14 @@
 package jsonmatch;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
-import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import org.junit.Assert;
 import org.junit.Test;
 
 import static jsonmatch.JsonMatch.*;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class MatchingTest {
 
-    ObjectMapper mapper = new ObjectMapper()
-        .registerModule(new ParameterNamesModule())
-        .registerModule(new Jdk8Module());
     @Test
     public void simpleObjectMatch() {
 
@@ -29,6 +24,25 @@ public class MatchingTest {
             "    \"a\": \u001B[32m\"x\"\u001B[0m,\n" +
             "    \"b\": \u001B[32m\"y\"\u001B[0m,\n" +
             "    \"z\": \u001B[32m12\u001B[0m\n" +
+            "}\n", result.visualize());
+
+        assertTrue(result.isMatch());
+    }
+
+    @Test
+    public void simpleObjectMatchIgnoreExtraData() {
+
+        var matcher = object()
+            .with("a", eq("x"))
+            .with("b", eq("y"))
+            .build();
+
+        Result result = matcher.match("{\"a\":\"x\",\"b\":\"y\", \"z\": 12}");
+
+        assertEquals("{\n" +
+            "    \"a\": \u001B[32m\"x\"\u001B[0m,\n" +
+            "    \"b\": \u001B[32m\"y\"\u001B[0m,\n" +
+            "    \"z\": \u001B[90m12\u001B[0m\n" +
             "}\n", result.visualize());
 
         assertTrue(result.isMatch());
@@ -51,6 +65,26 @@ public class MatchingTest {
             "}\n",
             result.visualize()
         );
+    }
+
+    @Test
+    public void simpleObjectMissingField() {
+        var matcher = object()
+            .with("a", eq("x"))
+            .with("b", eq("o"))
+            .build();
+
+        Result result = matcher.match("{\"a\":\"x\"}");
+
+        assertEquals(
+            "{\n" +
+                "    \"a\": \u001B[32m\"x\"\u001B[0m,\n" +
+                "    \u001B[31m\"b\": \u001B[0mis missing.\n" +
+                "}\n",
+            result.visualize()
+        );
+
+        assertFalse(result.isMatch());
     }
 
     @Test
@@ -139,7 +173,8 @@ public class MatchingTest {
     }
 
      void assertEquals(String expected, String actual) {
-         Assert.assertEquals(expected, actual);
-         System.out.println(expected);
+         System.out.println(actual);
+        Assert.assertEquals(expected, actual);
+
      }
 }

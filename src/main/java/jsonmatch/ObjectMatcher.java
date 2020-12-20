@@ -1,11 +1,19 @@
 package jsonmatch;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import lombok.Value;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import static jsonmatch.NodeType.OBJECT;
 
 @Value
 public class ObjectMatcher implements Matcher {
@@ -30,8 +38,30 @@ public class ObjectMatcher implements Matcher {
 
     @Override
     public Result match(JsonNode parsed) {
-        return new ObjectResult(fieldMatchers.entrySet().stream().map(
-            entry -> Map.entry(entry.getKey(), entry.getValue().match(parsed.get(entry.getKey())))
-        ).collect(Collectors.toList()));
+        if (! (parsed instanceof ObjectNode)) {
+            return new WrongTypeResult(OBJECT, NodeType.fromJackson(parsed.getNodeType()), parsed);
+        }
+        var obj = (ObjectNode) parsed;
+        var actualFieldNames = ImmutableList.copyOf(obj.fieldNames());
+        var matcherFields = fieldMatchers.keySet().stream().collect(Collectors.toList());
+        var missingFieldNames = new ArrayList<String>(matcherFields);
+        missingFieldNames.removeAll(actualFieldNames); // I feel so dirty;
+
+        List<Map.Entry<String, Result>> resultsForFields = actualFieldNames.stream().map(fieldName -> {
+            if (fieldMatchers.containsKey(fieldName)) {
+                return Map.entry(fieldName, fieldMatchers.get(fieldName).match(parsed.get(fieldName)));
+            } else {
+                return Map.entry(fieldName, (Result)new GrayResult(parsed.get(fieldName)));
+            }
+        }).collect(Collectors.toList());
+
+        List<Map.Entry<String, Result>> missingFieldResults = missingFieldNames.stream()
+            .map(fieldName -> Map.entry(fieldName, (Result) new MissingFieldResult(fieldName)))
+            .collect(Collectors.toList());
+
+        resultsForFields.addAll(missingFieldResults);
+        return new ObjectResult(
+            resultsForFields
+        );
     }
 }
