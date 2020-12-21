@@ -13,7 +13,7 @@ public class NumberMatcher implements Matcher {
     @Override
     public Result match(JsonNode parsed) {
         if (parsed.getNodeType() != JsonNodeType.NUMBER) {
-            return new WrongTypeResult(NodeType.STRING, NodeType.fromJackson(parsed.getNodeType()), parsed);
+            return new WrongTypeResult(NodeType.NUMBER, NodeType.fromJackson(parsed.getNodeType()), parsed);
         }
         return new NumberResult(expectedValue, (NumericNode) parsed);
     }

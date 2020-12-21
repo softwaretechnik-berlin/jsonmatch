@@ -17,4 +17,9 @@ public class JsonMatch {
         return new NumberMatcher(number);
     }
 
+    public static Matcher eq(boolean b) {
+        return new BooleanMatcher(b);
+    }
+
+
 }
