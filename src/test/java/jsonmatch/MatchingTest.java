@@ -122,13 +122,13 @@ public class MatchingTest {
 
     @Test
     public void nestedObjectMatch() {
-
         var matcher = object()
             .with("a", eq("x"))
             .with("b", object()
                 .with("c", eq("y"))
                 .with("d", eq("z"))
-            .build())
+                .build()
+            )
             .build();
 
         Result result = matcher.match("{\"a\":\"x\",\"b\":{\"c\": \"y\", \"d\": \"z\"}}");
@@ -145,6 +145,7 @@ public class MatchingTest {
             "}\n", result.visualize()
         );
     }
+
     @Test
     public void nestedObjectMismatch() {
 
@@ -153,7 +154,8 @@ public class MatchingTest {
             .with("b", object()
                 .with("c", eq("y"))
                 .with("d", eq("z"))
-            .build())
+                .build()
+            )
             .build();
 
         Result result = matcher.match("{\"a\":\"x\",\"b\":{\"c\": \"y\", \"d\": \"42\"}}");
