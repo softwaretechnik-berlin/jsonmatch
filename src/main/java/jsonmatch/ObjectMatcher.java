@@ -3,11 +3,9 @@ package jsonmatch;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
 import lombok.Value;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,7 +41,7 @@ public class ObjectMatcher implements Matcher {
         }
         var obj = (ObjectNode) parsed;
         var actualFieldNames = ImmutableList.copyOf(obj.fieldNames());
-        var matcherFields = fieldMatchers.keySet().stream().collect(Collectors.toList());
+        var matcherFields = new ArrayList<>(fieldMatchers.keySet());
         var missingFieldNames = new ArrayList<String>(matcherFields);
         missingFieldNames.removeAll(actualFieldNames); // I feel so dirty;
 

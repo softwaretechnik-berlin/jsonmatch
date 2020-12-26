@@ -2,7 +2,7 @@ package jsonmatch;
 
 public class MissingFieldResult implements Result{
     private final Object fieldName;
-
+    
     public MissingFieldResult(Object fieldName) {
         this.fieldName = fieldName;
     }
