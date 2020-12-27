@@ -10,11 +10,9 @@ public class NumberResult implements Result {
     Number expectedValue;
     NumericNode actualValue;
 
-
     @Override
     public boolean isMatch() {
             return expectedValue.equals(actualValue.numberValue());
-
     }
 
     @Override

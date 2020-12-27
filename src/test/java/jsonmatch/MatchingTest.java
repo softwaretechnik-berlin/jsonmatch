@@ -51,6 +51,26 @@ public class MatchingTest {
     }
 
     @Test
+    public void simpleObjectMatchFailOnExtraData() {
+
+        var matcher = object()
+            .ignoreExtraFields(false)
+            .with("a", eq("x"))
+            .with("b", eq("y"))
+            .build();
+
+        Result result = matcher.match("{\"a\":\"x\",\"b\":\"y\", \"z\": 12}");
+
+        assertEquals("{\n" +
+            "    \"a\": \u001B[32m\"x\"\u001B[0m,\n" +
+            "    \"b\": \u001B[32m\"y\"\u001B[0m,\n" +
+            "    \u001B[31m\"z\": \u001B[0m\u001B[31m12\u001B[0m unexpected field\n" +
+            "}\n", result.visualize());
+
+        assertFalse(result.isMatch());
+    }
+
+    @Test
     public void simpleObjectMismatch() {
        var matcher = object()
             .with("a", eq("x"))
@@ -81,7 +101,7 @@ public class MatchingTest {
         assertEquals(
             "{\n" +
                 "    \"a\": \u001B[32m\"x\"\u001B[0m,\n" +
-                "    \u001B[31m\"b\": \u001B[0mis missing.\n" +
+                "    \u001B[31m\"b\": \u001B[0mis missing\n" +
                 "}\n",
             result.visualize()
         );

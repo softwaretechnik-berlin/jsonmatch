@@ -18,21 +18,28 @@ public class ObjectMatcher implements Matcher {
     public static class Builder {
         private LinkedHashMap<String, Matcher> fieldMatchers = new LinkedHashMap<>();
 
+        private boolean ignoreExtraFields = true;
+
         public Builder with(String fieldName, Matcher valueMatcher) {
             fieldMatchers.put(fieldName, valueMatcher);
             return this;
         }
 
+        public Builder ignoreExtraFields(boolean b) {
+            this.ignoreExtraFields = b;
+            return this;
+        }
         public ObjectMatcher build() {
-            return new ObjectMatcher(fieldMatchers);
+            return new ObjectMatcher(fieldMatchers, ignoreExtraFields);
         }
     }
 
     public static Builder builder() {
         return new Builder();
     }
-    
+
     LinkedHashMap<String, Matcher> fieldMatchers;
+    boolean ignoreExtraFields;
 
     @Override
     public Result match(JsonNode parsed) {
@@ -49,7 +56,11 @@ public class ObjectMatcher implements Matcher {
             if (fieldMatchers.containsKey(fieldName)) {
                 return Map.entry(fieldName, fieldMatchers.get(fieldName).match(parsed.get(fieldName)));
             } else {
-                return Map.entry(fieldName, (Result)new GrayResult(parsed.get(fieldName)));
+                if (ignoreExtraFields) {
+                    return Map.entry(fieldName, (Result) new GrayResult(parsed.get(fieldName)));
+                } else {
+                    return Map.entry(fieldName, (Result) new ExtraFieldResult(parsed.get(fieldName)));
+                }
             }
         }).collect(Collectors.toList());
 

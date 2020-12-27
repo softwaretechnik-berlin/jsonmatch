@@ -20,6 +20,4 @@ public class JsonMatch {
     public static Matcher eq(boolean b) {
         return new BooleanMatcher(b);
     }
-
-
 }
