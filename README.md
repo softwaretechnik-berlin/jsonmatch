@@ -1,8 +1,22 @@
-<p><code>jsonmatch</code> is a library that helps verifying JSON results in test cases. It provides a DSL to specify expectations, which is much nicer to use in java than providing, e.g. json string literals. It also provides a visualisation of the test result, that provides a view at the actual result, projected through the expectation that has been set up. Currently the visualisation uses ansi coloured output.</p>
-<p><strong>Note</strong>: This file is generate from the <a href="src/test/java/jsonmatch/MatchingTest.java%7D">acceptance test</a>, please don’t edit the README.md , but rather the test case.</p>
-<p>Let’s look at some examples.</p>
-<h2 id="matching-simple-objects">Matching Simple Objects</h2>
-<p>The happy path case:</p>
+<p>
+`jsonmatch` is a library that helps verifying JSON results
+in test cases. It provides a DSL to specify expectations,
+which is much nicer to use in java than providing, e.g.
+json string literals. It also provides a visualisation of
+the test result, that provides a view at the actual result,
+projected through the expectation that has been set up.
+Currently the visualisation uses ansi coloured output.
+<p>
+**Note**: This file is generate from the [acceptance test](src/test/java/jsonmatch/MatchingTest.java}), please
+don't edit the README.md , but rather the test case.
+<p>
+Let's look at some examples.
+<p>
+Matching Simple Objects
+-----------------------
+
+The happy path case:
+
 <pre>
 var matcher = object()
     .with(<span style="color:green">"a"</span>, eq(<span style="color:green">"x"</span>))
@@ -28,7 +42,10 @@ assertEquals(«{
 
 assertTrue(result.isMatch());
 </pre>
-<p>By default the object matcher ignores extra fields. However it displays the extra information in gray:</p>
+
+By default the object matcher ignores extra fields.
+However it displays the extra information in gray:
+
 <pre>
 var matcher = object()
     .with(<span style="color:green">"a"</span>, eq(<span style="color:green">"x"</span>))
@@ -50,7 +67,10 @@ assertEquals(«{
 
 assertTrue(result.isMatch());
 </pre>
-<p>If the matcher is configured not to ignore extra fields it will fail as follows:</p>
+
+If the matcher is configured not to ignore extra fields
+it will fail as follows:
+
 <pre>
 var matcher = object()
     .ignoreExtraFields(<span style="color:blue">false</span>)
@@ -73,7 +93,9 @@ assertEquals(«{
 
 assertFalse(result.isMatch());
 </pre>
-<p>Obviously field values need to match the expectation:</p>
+
+Obviously field values need to match the expectation:
+
 <pre>
 var matcher = object()
     .with(<span style="color:green">"a"</span>, eq(<span style="color:green">"x"</span>))
@@ -94,7 +116,9 @@ assertEquals(«{
     result.visualize()
 );
 </pre>
-<p>Missing fields will also fail to match:</p>
+
+Missing fields will also fail to match:
+
 <pre>
 var matcher = object()
     .with(<span style="color:green">"a"</span>, eq(<span style="color:green">"x"</span>))
@@ -115,8 +139,16 @@ assertEquals(«{
 
 assertFalse(result.isMatch());
 </pre>
-<h2 id="matching-arrays">Matching Arrays</h2>
-<p>We can also match elements of an array. Currently only an exact match is implemented, however more match modes, like all <code>ignoreExtraElements</code>, <code>ignoreOrder</code> can easily be added. Here a basic example:</p>
+
+Matching Arrays
+---------------
+<p>
+We can also match elements of an array.
+Currently only an exact match is implemented, however
+more match modes, like all `ignoreExtraElements`,
+`ignoreOrder` can easily be added. Here a basic
+example:
+
 <pre>
 var matcher = array()
     .with(eq(<span style="color:green">"Hello"</span>))
@@ -132,7 +164,9 @@ assertEquals(«[
 ]
 », result.visualize());
 </pre>
-<p>This is what a failed match on an array element looks like:</p>
+
+This is what a failed match on an array element looks like:
+
 <pre>
 var matcher = array()
     .with(eq(<span style="color:green">"Hello"</span>))
@@ -148,8 +182,13 @@ assertEquals(«[
 ]
 », result.visualize());
 </pre>
-<h2 id="nested-objects">Nested Objects</h2>
-<p>We can also match on nested structures. Actually matchers support arbitrary nesting:</p>
+
+Nested Objects
+--------------
+<p>
+We can also match on nested structures. Actually
+matchers support arbitrary nesting:
+
 <pre>
 var matcher = object()
     .with(<span style="color:green">"a"</span>, eq(<span style="color:green">"x"</span>))
@@ -180,7 +219,9 @@ assertEquals(«{
 », result.visualize()
 );
 </pre>
-<p>This is what a mismatch on a nested object looks like:</p>
+
+This is what a mismatch on a nested object looks like:
+
 <pre>
 var matcher = object()
     .with(<span style="color:green">"a"</span>, eq(<span style="color:green">"x"</span>))
