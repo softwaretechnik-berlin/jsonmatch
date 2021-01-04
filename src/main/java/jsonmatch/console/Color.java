@@ -19,4 +19,8 @@ public enum Color {
     public String render(String s) {
         return ansi + s + ANSI_RESET;
     }
+
+    public String getAnsi() {
+        return ansi;
+    }
 }
