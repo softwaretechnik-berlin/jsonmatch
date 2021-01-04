@@ -1,4 +1,3 @@
-<p>
 `jsonmatch` is a library that helps verifying JSON results
 in test cases. It provides a DSL to specify expectations,
 which is much nicer to use in java than providing, e.g.
@@ -6,12 +5,12 @@ json string literals. It also provides a visualisation of
 the test result, that provides a view at the actual result,
 projected through the expectation that has been set up.
 Currently the visualisation uses ansi coloured output.
-<p>
+
 **Note**: This file is generate from the [acceptance test](src/test/java/jsonmatch/MatchingTest.java}), please
 don't edit the README.md , but rather the test case.
-<p>
+
 Let's look at some examples.
-<p>
+
 Matching Simple Objects
 -----------------------
 
@@ -142,7 +141,7 @@ assertFalse(result.isMatch());
 
 Matching Arrays
 ---------------
-<p>
+
 We can also match elements of an array.
 Currently only an exact match is implemented, however
 more match modes, like all `ignoreExtraElements`,
@@ -185,7 +184,7 @@ assertEquals(«[
 
 Nested Objects
 --------------
-<p>
+
 We can also match on nested structures. Actually
 matchers support arbitrary nesting:
 
