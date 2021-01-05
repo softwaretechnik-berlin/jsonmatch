@@ -6,7 +6,7 @@ the test result, that provides a view at the actual result,
 projected through the expectation that has been set up.
 Currently the visualisation uses ansi coloured output.
 
-**Note**: This file is generate from the [acceptance test](src/test/java/jsonmatch/MatchingTest.java}), please
+**Note**: This file is generate from the [acceptance test](src/test/java/jsonmatch/MatchingTest.java), please
 don't edit the README.md , but rather the test case.
 
 Let's look at some examples.
@@ -16,8 +16,7 @@ Matching Simple Objects
 
 The happy path case:
 
-<pre>
-var matcher = object()
+<pre><code>var matcher = object()
     .with(<span style="color:green">"a"</span>, eq(<span style="color:green">"x"</span>))
     .with(<span style="color:green">"b"</span>, eq(<span style="color:green">"y"</span>))
     .with(<span style="color:green">"z"</span>, eq(<span style="color:blue">12</span>))
@@ -39,14 +38,12 @@ assertEquals(«{
 }
 », result.visualize());
 
-assertTrue(result.isMatch());
-</pre>
+assertTrue(result.isMatch());</code></pre>
 
 By default the object matcher ignores extra fields.
 However it displays the extra information in gray:
 
-<pre>
-var matcher = object()
+<pre><code>var matcher = object()
     .with(<span style="color:green">"a"</span>, eq(<span style="color:green">"x"</span>))
     .with(<span style="color:green">"b"</span>, eq(<span style="color:green">"y"</span>))
     .build();
@@ -64,14 +61,12 @@ assertEquals(«{
 }
 », result.visualize());
 
-assertTrue(result.isMatch());
-</pre>
+assertTrue(result.isMatch());</code></pre>
 
 If the matcher is configured not to ignore extra fields
 it will fail as follows:
 
-<pre>
-var matcher = object()
+<pre><code>var matcher = object()
     .ignoreExtraFields(<span style="color:blue">false</span>)
     .with(<span style="color:green">"a"</span>, eq(<span style="color:green">"x"</span>))
     .with(<span style="color:green">"b"</span>, eq(<span style="color:green">"y"</span>))
@@ -90,13 +85,11 @@ assertEquals(«{
 }
 », result.visualize());
 
-assertFalse(result.isMatch());
-</pre>
+assertFalse(result.isMatch());</code></pre>
 
 Obviously field values need to match the expectation:
 
-<pre>
-var matcher = object()
+<pre><code>var matcher = object()
     .with(<span style="color:green">"a"</span>, eq(<span style="color:green">"x"</span>))
     .with(<span style="color:green">"b"</span>, eq(<span style="color:green">"o"</span>))
     .build();
@@ -113,13 +106,11 @@ assertEquals(«{
 }
 »,
     result.visualize()
-);
-</pre>
+);</code></pre>
 
 Missing fields will also fail to match:
 
-<pre>
-var matcher = object()
+<pre><code>var matcher = object()
     .with(<span style="color:green">"a"</span>, eq(<span style="color:green">"x"</span>))
     .with(<span style="color:green">"b"</span>, eq(<span style="color:green">"o"</span>))
     .build();
@@ -136,8 +127,7 @@ assertEquals(«{
     result.visualize()
 );
 
-assertFalse(result.isMatch());
-</pre>
+assertFalse(result.isMatch());</code></pre>
 
 Matching Arrays
 ---------------
@@ -148,8 +138,7 @@ more match modes, like all `ignoreExtraElements`,
 `ignoreOrder` can easily be added. Here a basic
 example:
 
-<pre>
-var matcher = array()
+<pre><code>var matcher = array()
     .with(eq(<span style="color:green">"Hello"</span>))
     .with(eq(<span style="color:green">"World"</span>))
     .build();
@@ -161,13 +150,11 @@ assertEquals(«[
     <span style="color:green">"Hello"</span>,
     <span style="color:green">"World"</span>
 ]
-», result.visualize());
-</pre>
+», result.visualize());</code></pre>
 
 This is what a failed match on an array element looks like:
 
-<pre>
-var matcher = array()
+<pre><code>var matcher = array()
     .with(eq(<span style="color:green">"Hello"</span>))
     .with(eq(<span style="color:green">"World"</span>))
     .build();
@@ -179,8 +166,7 @@ assertEquals(«[
     <span style="color:green">"Hello"</span>,
     <span style="color:red">"Boat"</span> expected "World"
 ]
-», result.visualize());
-</pre>
+», result.visualize());</code></pre>
 
 Nested Objects
 --------------
@@ -188,8 +174,7 @@ Nested Objects
 We can also match on nested structures. Actually
 matchers support arbitrary nesting:
 
-<pre>
-var matcher = object()
+<pre><code>var matcher = object()
     .with(<span style="color:green">"a"</span>, eq(<span style="color:green">"x"</span>))
     .with(<span style="color:green">"b"</span>, object()
         .with(<span style="color:green">"c"</span>, eq(<span style="color:green">"y"</span>))
@@ -216,13 +201,11 @@ assertEquals(«{
     }
 }
 », result.visualize()
-);
-</pre>
+);</code></pre>
 
 This is what a mismatch on a nested object looks like:
 
-<pre>
-var matcher = object()
+<pre><code>var matcher = object()
     .with(<span style="color:green">"a"</span>, eq(<span style="color:green">"x"</span>))
     .with(<span style="color:green">"b"</span>, object()
         .with(<span style="color:green">"c"</span>, eq(<span style="color:green">"y"</span>))
@@ -250,5 +233,4 @@ assertEquals(«{
 }
 »,
     result.visualize()
-);
-</pre>
+);</code></pre>

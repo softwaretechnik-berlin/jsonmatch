@@ -27,7 +27,7 @@ import static org.junit.Assert.assertTrue;
  * projected through the expectation that has been set up.
  * Currently the visualisation uses ansi coloured output.
  * 
- * **Note**: This file is generate from the [acceptance test](src/test/java/jsonmatch/MatchingTest.java}), please
+ * **Note**: This file is generate from the [acceptance test](src/test/java/jsonmatch/MatchingTest.java), please
  * don't edit the README.md , but rather the test case.
  * 
  * Let's look at some examples.
