@@ -57,7 +57,7 @@ Result result = matcher.match(«{
 assertEquals(«{
     "a": <span style="color:green">"x"</span>,
     "b": <span style="color:green">"y"</span>,
-    "z": <span style="color:green">12</span>
+    "z": <span style="color:gray">12</span>
 }
 », result.visualize());
 

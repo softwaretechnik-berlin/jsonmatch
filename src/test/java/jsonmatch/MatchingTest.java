@@ -297,7 +297,7 @@ public class MatchingTest {
                 .replace(RED.getAnsi(), "<span style=\"color:red\">")
                 .replace(GREEN.getAnsi(), "<span style=\"color:green\">")
                 .replace(ANSI_RESET, "</span>")
-                .replace(GRAY.getAnsi(), "<span style=\"color:green\">")
+                .replace(GRAY.getAnsi(), "<span style=\"color:gray\">")
             ;
     }
 
