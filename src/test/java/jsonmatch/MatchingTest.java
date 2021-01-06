@@ -81,8 +81,9 @@ public class MatchingTest {
         assertEquals(doc.tap("{\n" +
             "    \"a\": \u001B[32m\"x\"\u001B[0m,\n" +
             "    \"b\": \u001B[32m\"y\"\u001B[0m,\n" +
-            "    \"z\": \u001B[90m12\u001B[0m\n" +
-            "}\n", this::prettyAnsi), result.visualize());
+            "    \u001B[90m\"z\": \u001B[0m\u001B[90m12\u001B[0m\n" +
+            "}" +
+            "\n", this::prettyAnsi), result.visualize());
 
         assertTrue(result.isMatch());
     }

@@ -34,9 +34,10 @@ public class ObjectResult implements Result {
                         .map(entry -> {
                                 if (entry.getValue() instanceof MissingFieldResult) {
                                     return Color.RED.render("\"" + entry.getKey() + "\": ") + entry.getValue().visualize();
-                                }
-                                else if (entry.getValue() instanceof ExtraFieldResult) {
+                                } else if (entry.getValue() instanceof ExtraFieldResult) {
                                     return Color.RED.render("\"" + entry.getKey() + "\": ") + entry.getValue().visualize();
+                                } else if (entry.getValue() instanceof GrayResult) {
+                                    return Color.GRAY.render("\"" + entry.getKey() + "\": ") + entry.getValue().visualize();
                                 } else {
                                     return
 
