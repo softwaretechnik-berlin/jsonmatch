@@ -20,7 +20,10 @@ import static org.junit.Assert.assertTrue;
 
 /**
  * [DOC file=README.md]
- * <p>
+ *
+ * [![Build Status](https://travis-ci.org/softwaretechnik-berlin/jsonmatch.svg?branch=master)](https://travis-ci.org/softwaretechnik-berlin/jsonmatch)
+ * [![Maven Central](https://img.shields.io/maven-central/v/berlin.softwaretechnik/jsonmatch.svg?maxAge=2592000)](https://mvnrepository.com/artifact/berlin.softwaretechnik/jsonmatch)
+ *
  * `jsonmatch` is a library that helps verifying JSON results
  * in test cases. It provides a DSL to specify expectations,
  * which is much nicer to use in java than providing, e.g.
@@ -28,12 +31,12 @@ import static org.junit.Assert.assertTrue;
  * the test result, that provides a view at the actual result,
  * projected through the expectation that has been set up.
  * Currently the visualisation uses ansi coloured output.
- * <p>
+ * 
  * **Note**: This file is generate from the [acceptance test](src/test/java/jsonmatch/MatchingTest.java), please
  * don't edit the README.md , but rather the test case.
- * <p>
+ * 
  * Let's look at some examples.
- * <p>
+ * 
  * Matching Simple Objects
  * -----------------------
  */
@@ -162,7 +165,7 @@ public class MatchingTest {
     /**
      * Matching Arrays
      * ---------------
-     * <p>
+     * 
      * We can also match elements of an array.
      * Currently only an exact match is implemented, however
      * more match modes, like all `ignoreExtraElements`,
@@ -208,7 +211,7 @@ public class MatchingTest {
     /**
      * Nested Objects
      * --------------
-     * <p>
+     * 
      * We can also match on nested structures. Actually
      * matchers support arbitrary nesting:
      */
