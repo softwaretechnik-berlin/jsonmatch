@@ -15,11 +15,14 @@ import static jsonmatch.NodeType.OBJECT;
 
 @Value
 public class ObjectMatcher implements Matcher {
-    public static class Builder {
+    public static class Builder implements MatcherBuilder{
         private LinkedHashMap<String, Matcher> fieldMatchers = new LinkedHashMap<>();
 
         private boolean ignoreExtraFields = true;
 
+        public Builder with(String fieldName, MatcherBuilder valueMatcherBuilder) {
+            return with(fieldName, valueMatcherBuilder.build());
+        }
         public Builder with(String fieldName, Matcher valueMatcher) {
             fieldMatchers.put(fieldName, valueMatcher);
             return this;

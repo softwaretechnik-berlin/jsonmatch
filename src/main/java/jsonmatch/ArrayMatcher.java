@@ -20,7 +20,7 @@ public class ArrayMatcher implements Matcher{
         return new Builder();
     }
 
-    public static class Builder {
+    public static class Builder implements MatcherBuilder {
         List<Matcher> elementMatchers = new LinkedList<>();
 
         public ArrayMatcher.Builder with(Matcher elementMatcher) {
