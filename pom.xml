@@ -6,7 +6,7 @@
     <name>jsonmatch</name>
     <version>VERSION</version>
     <description>Library for matching json output</description>
-    <url>https://github.com/fleipold/jsonmatch</url>
+    <url>https://github.com/softwaretechnik-berlin/jsonmatch</url>
     <licenses>
         <license>
             <name>MIT License</name>
@@ -15,8 +15,8 @@
         </license>
     </licenses>
     <scm>
-        <url>https://github.com/fleipold/jsonmatch</url>
-        <connection>git@github.com:fleipold/jsonmatch.git</connection>
+        <url>https://github.com/softwaretechnik-berlin/jsonmatch</url>
+        <connection>git@github.com:softwaretechnik-berlin/jsonmatch.git</connection>
     </scm>
 
     <properties>
