@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/softwaretechnik-berlin/jsonmatch.svg?branch=master)](https://travis-ci.org/softwaretechnik-berlin/jsonmatch)
+[![Build Status](https://travis-ci.com/softwaretechnik-berlin/jsonmatch.svg?branch=main)](https://travis-ci.com/softwaretechnik-berlin/jsonmatch)
 [![Maven Central](https://img.shields.io/maven-central/v/berlin.softwaretechnik/jsonmatch.svg?maxAge=2592000)](https://mvnrepository.com/artifact/berlin.softwaretechnik/jsonmatch)
 
 `jsonmatch` is a library that helps verifying JSON results
