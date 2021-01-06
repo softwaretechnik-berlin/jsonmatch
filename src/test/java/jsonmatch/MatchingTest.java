@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import junit.framework.AssertionFailedError;
 import org.buildobjects.doctest.runtime.junit4.DocufierRule;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -268,9 +269,12 @@ public class MatchingTest {
         );
     }
 
+    /**
+     * [NO-DOC]
+     */
     @Test
+    @Ignore
     public void useInAssertion() {
-
         assertMatches("{\"a\":\"x\"}", object()
             .with("a", eq("x"))
             .with("b", object()
@@ -280,16 +284,22 @@ public class MatchingTest {
         );
     }
 
+    /**
+     * [NO-DOC]
+     */
     private void assertMatches(String json, MatcherBuilder matcherBuilder) {
         assertMatches(json, matcherBuilder.build());
     }
 
+    /**
+     * [NO-DOC]
+     */
     private void assertMatches(String json, Matcher matcher) {
         Result result = matcher.match(json);
         if (result.isMatch()) {
             return;
         }
-        throw new AssertionFailedError("Mismatch:\n" + result.visualize());
+        throw new AssertionFailedError("\n" + result.visualize());
     }
 
 

@@ -1,6 +1,6 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.buildobjects</groupId>
+    <groupId>berlin.softwaretechnik</groupId>
     <artifactId>jsonmatch</artifactId>
     <packaging>jar</packaging>
     <name>jsonmatch</name>
@@ -21,7 +21,7 @@
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.target>8</maven.compiler.target>
     </properties>
 
     <developers>
