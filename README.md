@@ -9,6 +9,16 @@ the test result, that provides a view at the actual result,
 projected through the expectation that has been set up.
 Currently the visualisation uses ansi coloured output.
 
+How to start with maven:
+
+~~~.xml
+<dependency>
+    <groupId>berlin.softwaretechnik</groupId>
+    <artifactId>jsonmatch</artifactId>
+    <version>0.0.1</version>
+    <scope>test</scope> <!-- If you only want to use jsonmatch in your tests. -->
+</dependency>
+~~~
 **Note**: This file is generate from the [acceptance test](src/test/java/jsonmatch/MatchingTest.java), please
 don't edit the README.md , but rather the test case.
 
