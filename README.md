@@ -15,7 +15,7 @@ How to start with maven:
 <dependency>
     <groupId>berlin.softwaretechnik</groupId>
     <artifactId>jsonmatch</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
     <scope>test</scope> <!-- If you only want to use jsonmatch in your tests. -->
 </dependency>
 ~~~
