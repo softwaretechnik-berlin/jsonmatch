@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.com/softwaretechnik-berlin/jsonmatch.svg?branch=main)](https://travis-ci.com/softwaretechnik-berlin/jsonmatch)
-[![Maven Central](https://img.shields.io/maven-central/v/berlin.softwaretechnik/jsonmatch.svg?maxAge=2592000)](https://mvnrepository.com/artifact/berlin.softwaretechnik/jsonmatch)
+[![Maven Central](https://img.shields.io/maven-central/v/berlin.softwaretechnik/jsonmatch.svg)](https://mvnrepository.com/artifact/berlin.softwaretechnik/jsonmatch)
 
 `jsonmatch` is a library that helps verifying JSON results
 in test cases. It provides a DSL to specify expectations,
@@ -29,7 +29,7 @@ Matching Simple Objects
 
 The happy path case:
 
-<pre><code>var matcher = object()
+<pre><code>Matcher matcher = object()
     .with(<span style="color:green">"a"</span>, eq(<span style="color:green">"x"</span>))
     .with(<span style="color:green">"b"</span>, eq(<span style="color:green">"y"</span>))
     .with(<span style="color:green">"z"</span>, eq(<span style="color:blue">12</span>))
@@ -56,7 +56,7 @@ assertTrue(result.isMatch());</code></pre>
 By default the object matcher ignores extra fields.
 However it displays the extra information in gray:
 
-<pre><code>var matcher = object()
+<pre><code>Matcher matcher = object()
     .with(<span style="color:green">"a"</span>, eq(<span style="color:green">"x"</span>))
     .with(<span style="color:green">"b"</span>, eq(<span style="color:green">"y"</span>))
     .build();
@@ -79,7 +79,7 @@ assertTrue(result.isMatch());</code></pre>
 If the matcher is configured not to ignore extra fields
 it will fail as follows:
 
-<pre><code>var matcher = object()
+<pre><code>Matcher matcher = object()
     .ignoreExtraFields(<span style="color:blue">false</span>)
     .with(<span style="color:green">"a"</span>, eq(<span style="color:green">"x"</span>))
     .with(<span style="color:green">"b"</span>, eq(<span style="color:green">"y"</span>))
@@ -102,7 +102,7 @@ assertFalse(result.isMatch());</code></pre>
 
 Obviously field values need to match the expectation:
 
-<pre><code>var matcher = object()
+<pre><code>Matcher matcher = object()
     .with(<span style="color:green">"a"</span>, eq(<span style="color:green">"x"</span>))
     .with(<span style="color:green">"b"</span>, eq(<span style="color:green">"o"</span>))
     .build();
@@ -123,7 +123,7 @@ assertEquals(«{
 
 Missing fields will also fail to match:
 
-<pre><code>var matcher = object()
+<pre><code>Matcher matcher = object()
     .with(<span style="color:green">"a"</span>, eq(<span style="color:green">"x"</span>))
     .with(<span style="color:green">"b"</span>, eq(<span style="color:green">"o"</span>))
     .build();
@@ -151,7 +151,7 @@ more match modes, like all `ignoreExtraElements`,
 `ignoreOrder` can easily be added. Here a basic
 example:
 
-<pre><code>var matcher = array()
+<pre><code>Matcher matcher = array()
     .with(eq(<span style="color:green">"Hello"</span>))
     .with(eq(<span style="color:green">"World"</span>))
     .build();
@@ -167,7 +167,7 @@ assertEquals(«[
 
 This is what a failed match on an array element looks like:
 
-<pre><code>var matcher = array()
+<pre><code>Matcher matcher = array()
     .with(eq(<span style="color:green">"Hello"</span>))
     .with(eq(<span style="color:green">"World"</span>))
     .build();
@@ -187,7 +187,7 @@ Nested Objects
 We can also match on nested structures. Actually
 matchers support arbitrary nesting:
 
-<pre><code>var matcher = object()
+<pre><code>Matcher matcher = object()
     .with(<span style="color:green">"a"</span>, eq(<span style="color:green">"x"</span>))
     .with(<span style="color:green">"b"</span>, object()
         .with(<span style="color:green">"c"</span>, eq(<span style="color:green">"y"</span>))
@@ -218,7 +218,7 @@ assertEquals(«{
 
 This is what a mismatch on a nested object looks like:
 
-<pre><code>var matcher = object()
+<pre><code>Matcher matcher = object()
     .with(<span style="color:green">"a"</span>, eq(<span style="color:green">"x"</span>))
     .with(<span style="color:green">"b"</span>, object()
         .with(<span style="color:green">"c"</span>, eq(<span style="color:green">"y"</span>))

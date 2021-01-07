@@ -1,8 +1,7 @@
 package jsonmatch;
 
 import com.fasterxml.jackson.databind.node.NumericNode;
-import com.fasterxml.jackson.databind.node.TextNode;
-import jsonmatch.console.Color;
+import jsonmatch.util.Color;
 import lombok.Value;
 
 @Value

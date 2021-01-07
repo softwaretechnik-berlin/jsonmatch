@@ -2,7 +2,7 @@ package jsonmatch;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import static jsonmatch.console.Color.GRAY;
+import static jsonmatch.util.Color.GRAY;
 
 public class GrayResult implements Result {
     private final JsonNode jsonNode;

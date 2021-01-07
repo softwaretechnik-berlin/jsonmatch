@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static jsonmatch.NodeType.OBJECT;
+import static jsonmatch.util.Pair.pair;
 
 @Value
 public class ObjectMatcher implements Matcher {
@@ -49,26 +50,26 @@ public class ObjectMatcher implements Matcher {
         if (! (parsed instanceof ObjectNode)) {
             return new WrongTypeResult(OBJECT, NodeType.fromJackson(parsed.getNodeType()), parsed);
         }
-        var obj = (ObjectNode) parsed;
-        var actualFieldNames = ImmutableList.copyOf(obj.fieldNames());
-        var matcherFields = new ArrayList<>(fieldMatchers.keySet());
-        var missingFieldNames = new ArrayList<String>(matcherFields);
+        ObjectNode obj = (ObjectNode) parsed;
+        List<String> actualFieldNames = ImmutableList.copyOf(obj.fieldNames());
+        List<String> matcherFields = new ArrayList<>(fieldMatchers.keySet());
+        List<String> missingFieldNames = new ArrayList<>(matcherFields);
         missingFieldNames.removeAll(actualFieldNames); // I feel so dirty;
 
         List<Map.Entry<String, Result>> resultsForFields = actualFieldNames.stream().map(fieldName -> {
             if (fieldMatchers.containsKey(fieldName)) {
-                return Map.entry(fieldName, fieldMatchers.get(fieldName).match(parsed.get(fieldName)));
+                return pair(fieldName, fieldMatchers.get(fieldName).match(parsed.get(fieldName)));
             } else {
                 if (ignoreExtraFields) {
-                    return Map.entry(fieldName, (Result) new GrayResult(parsed.get(fieldName)));
+                    return pair(fieldName, (Result) new GrayResult(parsed.get(fieldName)));
                 } else {
-                    return Map.entry(fieldName, (Result) new ExtraFieldResult(parsed.get(fieldName)));
+                    return pair(fieldName, (Result) new ExtraFieldResult(parsed.get(fieldName)));
                 }
             }
         }).collect(Collectors.toList());
 
         List<Map.Entry<String, Result>> missingFieldResults = missingFieldNames.stream()
-            .map(fieldName -> Map.entry(fieldName, (Result) new MissingFieldResult(fieldName)))
+            .map(fieldName -> pair(fieldName, (Result) new MissingFieldResult(fieldName)))
             .collect(Collectors.toList());
 
         resultsForFields.addAll(missingFieldResults);

@@ -1,6 +1,6 @@
-package jsonmatch.console;
+package jsonmatch.util;
 
-import static jsonmatch.console.ConsoleUtils.ANSI_RESET;
+import static jsonmatch.util.ConsoleUtils.ANSI_RESET;
 
 public enum Color {
     BLACK("\u001B[30m"),

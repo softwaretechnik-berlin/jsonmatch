@@ -2,7 +2,7 @@ package jsonmatch;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import static jsonmatch.console.Color.RED;
+import static jsonmatch.util.Color.RED;
 
 public class ExtraFieldResult implements Result {
     private final JsonNode jsonNode;

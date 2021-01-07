@@ -13,8 +13,8 @@ import java.io.IOException;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static jsonmatch.JsonMatch.*;
-import static jsonmatch.console.Color.*;
-import static jsonmatch.console.ConsoleUtils.ANSI_RESET;
+import static jsonmatch.util.Color.*;
+import static jsonmatch.util.ConsoleUtils.ANSI_RESET;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -22,7 +22,7 @@ import static org.junit.Assert.assertTrue;
  * [DOC file=README.md]
  *
  * [![Build Status](https://travis-ci.com/softwaretechnik-berlin/jsonmatch.svg?branch=main)](https://travis-ci.com/softwaretechnik-berlin/jsonmatch)
- * [![Maven Central](https://img.shields.io/maven-central/v/berlin.softwaretechnik/jsonmatch.svg?maxAge=2592000)](https://mvnrepository.com/artifact/berlin.softwaretechnik/jsonmatch)
+ * [![Maven Central](https://img.shields.io/maven-central/v/berlin.softwaretechnik/jsonmatch.svg)](https://mvnrepository.com/artifact/berlin.softwaretechnik/jsonmatch)
  *
  * `jsonmatch` is a library that helps verifying JSON results
  * in test cases. It provides a DSL to specify expectations,
@@ -61,7 +61,7 @@ public class MatchingTest {
     @Test
     public void simpleObjectMatch() {
 
-        var matcher = object()
+        Matcher matcher = object()
             .with("a", eq("x"))
             .with("b", eq("y"))
             .with("z", eq(12))
@@ -86,7 +86,7 @@ public class MatchingTest {
      */
     @Test
     public void simpleObjectMatchIgnoreExtraData() {
-        var matcher = object()
+        Matcher matcher = object()
             .with("a", eq("x"))
             .with("b", eq("y"))
             .build();
@@ -109,8 +109,7 @@ public class MatchingTest {
      */
     @Test
     public void simpleObjectMatchFailOnExtraData() {
-
-        var matcher = object()
+        Matcher matcher = object()
             .ignoreExtraFields(false)
             .with("a", eq("x"))
             .with("b", eq("y"))
@@ -132,7 +131,7 @@ public class MatchingTest {
      */
     @Test
     public void simpleObjectMismatch() {
-        var matcher = object()
+        Matcher matcher = object()
             .with("a", eq("x"))
             .with("b", eq("o"))
             .build();
@@ -154,7 +153,7 @@ public class MatchingTest {
      */
     @Test
     public void simpleObjectMissingField() {
-        var matcher = object()
+        Matcher matcher = object()
             .with("a", eq("x"))
             .with("b", eq("o"))
             .build();
@@ -184,7 +183,7 @@ public class MatchingTest {
      */
     @Test
     public void simpleArrayMatch() {
-        var matcher = array()
+        Matcher matcher = array()
             .with(eq("Hello"))
             .with(eq("World"))
             .build();
@@ -203,7 +202,7 @@ public class MatchingTest {
      */
     @Test
     public void simpleArrayMismatch() {
-        var matcher = array()
+        Matcher matcher = array()
             .with(eq("Hello"))
             .with(eq("World"))
             .build();
@@ -227,7 +226,7 @@ public class MatchingTest {
      */
     @Test
     public void nestedObjectMatch() {
-        var matcher = object()
+        Matcher matcher = object()
             .with("a", eq("x"))
             .with("b", object()
                 .with("c", eq("y"))
@@ -256,8 +255,7 @@ public class MatchingTest {
      */
     @Test
     public void nestedObjectMismatch() {
-
-        var matcher = object()
+        Matcher matcher = object()
             .with("a", eq("x"))
             .with("b", object()
                 .with("c", eq("y"))

@@ -1,7 +1,7 @@
 package jsonmatch;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import jsonmatch.console.Color;
+import jsonmatch.util.Color;
 
 
 public class WrongTypeResult implements Result {

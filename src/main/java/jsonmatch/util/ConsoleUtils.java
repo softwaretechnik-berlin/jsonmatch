@@ -1,4 +1,4 @@
-package jsonmatch.console;
+package jsonmatch.util;
 
 import java.text.DecimalFormat;
 

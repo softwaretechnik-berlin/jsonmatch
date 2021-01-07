@@ -1,6 +1,6 @@
 package jsonmatch;
 
-import jsonmatch.console.Color;
+import jsonmatch.util.Color;
 
 import java.util.List;
 import java.util.Map;
