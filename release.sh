@@ -68,9 +68,9 @@ git commit -a -m "Releasing ${version}." || echo "Nothing to commit"
 
 git tag -f "${tag}" --annotate --message "${release_notes}"
 
-git push origin "${tag}" "release-${tag}:master"
+git push origin "${tag}" "release-${tag}:main"
 
-git checkout master
+git checkout main
 git pull --rebase
 
 git branch -d "release-${tag}"
