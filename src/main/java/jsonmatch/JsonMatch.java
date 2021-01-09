@@ -20,4 +20,8 @@ public class JsonMatch {
     public static Matcher eq(boolean b) {
         return new BooleanMatcher(b);
     }
+
+    public static Matcher annotate(Matcher matcher, String annotation) {
+        return new AnnotatedMatcher(matcher, annotation);
+    }
 }

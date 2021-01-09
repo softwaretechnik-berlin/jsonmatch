@@ -32,16 +32,19 @@ public class ObjectResult implements Result {
                 indent(
                     fieldResults.stream()
                         .map(entry -> {
-                                if (entry.getValue() instanceof MissingFieldResult) {
-                                    return Color.RED.render("\"" + entry.getKey() + "\": ") + entry.getValue().visualize();
+                            final String fieldPrefix = "\"" + entry.getKey() + "\": ";
+                            final VisualisationContext context = new VisualisationContext(fieldPrefix.length());
+
+                            if (entry.getValue() instanceof MissingFieldResult) {
+
+                                return Color.RED.render(fieldPrefix) + entry.getValue().visualize(context);
                                 } else if (entry.getValue() instanceof ExtraFieldResult) {
-                                    return Color.RED.render("\"" + entry.getKey() + "\": ") + entry.getValue().visualize();
+                                    return Color.RED.render(fieldPrefix) + entry.getValue().visualize(context);
                                 } else if (entry.getValue() instanceof GrayResult) {
-                                    return Color.GRAY.render("\"" + entry.getKey() + "\": ") + entry.getValue().visualize();
+                                    return Color.GRAY.render(fieldPrefix) + entry.getValue().visualize(context);
                                 } else {
                                     return
-
-                                        "\"" + entry.getKey() + "\": " + entry.getValue().visualize();
+                                        "\"" + entry.getKey() + "\": " + entry.getValue().visualize(context);
                                 }
                             }
                         )

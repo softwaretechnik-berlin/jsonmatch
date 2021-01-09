@@ -2,5 +2,12 @@ package jsonmatch;
 
 interface Result {
     boolean isMatch();
-    String visualize();
+
+    default String visualize(VisualisationContext context) {
+        return this.visualize();
+    }
+
+    default String visualize() {
+        return this.visualize(null);
+    }
 }

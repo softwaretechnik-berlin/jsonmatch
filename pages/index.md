@@ -142,6 +142,28 @@ assertEquals(«{
 
 assertFalse(result.isMatch());</code></pre>
 
+Sometimes we want to give context on a particular expection:
+
+<pre><code>Matcher matcher = object()
+    .with(<span style="color:green">"a"</span>, eq(<span style="color:green">"x"</span>))
+    .with(<span style="color:green">"b"</span>, annotate(eq(<span style="color:blue">42</span>), <span style="color:green">"This is the answer, obviously."</span>))
+    .build();
+
+Result result = matcher.match(«{
+  "a" : "x",
+  "b" : 42
+}»);
+
+assertEquals(«{
+    "a": <span style="color:green">"x"</span>,
+    "b": <span style="color:green">42</span> ╶ This is the answer, obviously.
+}
+»,
+    result.visualize()
+);
+
+assertTrue(result.isMatch());</code></pre>
+
 Matching Arrays
 ---------------
 
@@ -212,6 +234,40 @@ assertEquals(«{
         "c": <span style="color:green">"y"</span>,
         "d": <span style="color:green">"z"</span>
     }
+}
+», result.visualize()
+);</code></pre>
+
+Annotations makes sense especially for bigger longer results.
+Here an example where a nested object is annotated.
+
+<pre><code>Matcher matcher = object()
+    .with(<span style="color:green">"a"</span>, eq(<span style="color:green">"x"</span>))
+    .with(<span style="color:green">"b"</span>, annotate(
+        object()
+            .with(<span style="color:green">"c"</span>, eq(<span style="color:green">"y"</span>))
+            .with(<span style="color:green">"d"</span>, eq(<span style="color:green">"z"</span>))
+            .build(),
+            <span style="color:green">"This is a nested structure."</span>
+        ))
+    .build();
+
+Result result = matcher.match(«{
+  "a" : "x",
+  "b" : {
+    "c" : "y",
+    "d" : "z"
+  }
+}»);
+
+assertTrue(result.isMatch());
+
+assertEquals(«{
+    "a": <span style="color:green">"x"</span>,
+    "b": {        ╮
+        "c": <span style="color:green">"y"</span>, ├ This is a nested structure.
+        "d": <span style="color:green">"z"</span>  │
+    }             ╯
 }
 », result.visualize()
 );</code></pre>

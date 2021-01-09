@@ -172,6 +172,28 @@ public class MatchingTest {
     }
 
     /**
+     * Sometimes we want to give context on a particular expection:
+     */
+    @Test
+    public void simpleObjectAnnotation() {
+        Matcher matcher = object()
+            .with("a", eq("x"))
+            .with("b", annotate(eq(42), "This is the answer, obviously."))
+            .build();
+
+        Result result = matcher.match(doc.tap("{\"a\":\"x\",\"b\":42}", this::prettyJson));
+
+        assertEquals(doc.tap("{\n" +
+                "    \"a\": \u001B[32m\"x\"\u001B[0m,\n" +
+                "    \"b\": \u001B[32m42\u001B[0m ╶ This is the answer, obviously.\n" +
+                "}\n", this::prettyAnsi),
+            result.visualize()
+        );
+
+        assertTrue(result.isMatch());
+    }
+
+    /**
      * Matching Arrays
      * ---------------
      * 
@@ -247,6 +269,37 @@ public class MatchingTest {
                 "        \"d\": \u001B[32m\"z\"\u001B[0m\n" +
                 "    }\n" +
                 "}\n", this::prettyAnsi), result.visualize()
+        );
+    }
+
+    /**
+     * Annotations makes sense especially for bigger longer results.
+     * Here an example where a nested object is annotated.
+     */
+    @Test
+    public void nestedObjectAnnotated() {
+        Matcher matcher = object()
+            .with("a", eq("x"))
+            .with("b", annotate(
+                object()
+                    .with("c", eq("y"))
+                    .with("d", eq("z"))
+                    .build(),
+                    "This is a nested structure."
+                ))
+            .build();
+
+        Result result = matcher.match(doc.tap("{\"a\":\"x\",\"b\":{\"c\": \"y\", \"d\": \"z\"}}", this::prettyJson));
+
+        assertTrue(result.isMatch());
+
+        assertEquals(doc.tap("{\n" +
+            "    \"a\": \u001B[32m\"x\"\u001B[0m,\n" +
+            "    \"b\": {        ╮\n" +
+            "        \"c\": \u001B[32m\"y\"\u001B[0m, ├ This is a nested structure.\n" +
+            "        \"d\": \u001B[32m\"z\"\u001B[0m  │\n" +
+            "    }             ╯\n" +
+            "}\n", this::prettyAnsi), result.visualize()
         );
     }
 
