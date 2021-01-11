@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.com/softwaretechnik-berlin/jsonmatch.svg?branch=main)](https://travis-ci.com/softwaretechnik-berlin/jsonmatch)
-[![Maven Central](https://img.shields.io/maven-central/v/berlin.softwaretechnik/jsonmatch.svg)](https://mvnrepository.com/artifact/berlin.softwaretechnik/jsonmatch)
+[![Maven Central](https://img.shields.io/maven-central/v/berlin.softwaretechnik/jsonmatch.svg?maxAge=3600)](https://mvnrepository.com/artifact/berlin.softwaretechnik/jsonmatch)
 
 `jsonmatch` is a library that helps verifying JSON results
 in test cases. It provides a DSL to specify expectations,
@@ -15,12 +15,12 @@ How to start with maven:
 <dependency>
     <groupId>berlin.softwaretechnik</groupId>
     <artifactId>jsonmatch</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.3</version>
     <scope>test</scope> <!-- If you only want to use jsonmatch in your tests. -->
 </dependency>
 ~~~
-**Note**: This file is generate from the [acceptance test](src/test/java/jsonmatch/MatchingTest.java), please
-don't edit the README.md , but rather the test case.
+**Note**: This file is generate from the [acceptance test](src/test/java/jsonmatch/MatchingTest.java). To make
+changes please edit the acceptance test.
 
 Let's look at some examples.
 
