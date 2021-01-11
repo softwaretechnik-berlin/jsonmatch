@@ -24,6 +24,8 @@ fi >&2
 
 find . -name target -prune -exec rm -r {} \;
 
+sed -i "" -E "s%(.*)<version>[^<]*</version>%\1<version>${version}</version>%g" src/test/java/jsonmatch/MatchingTest.java
+
 ./build.sh
 mvn package javadoc:jar source:jar
 
@@ -58,8 +60,6 @@ git log ${previous_release_tag}..HEAD > /tmp/release-notes-candidate.txt
 vim /tmp/release-notes-candidate.txt
 
 release_notes=$(cat /tmp/release-notes-candidate.txt)
-
-sed -i "" -E "s%(.*)<version>[^<]*</version>%\1<version>${version}</version>%g" README.md
 
 git branch --force "release-${tag}"
 git checkout "release-${tag}"
