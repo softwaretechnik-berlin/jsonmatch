@@ -37,7 +37,7 @@ public class ObjectResult implements Result {
                                 return Color.RED.render(fieldPrefix) + entry.getValue().visualize(context);
                             } else if (entry.getValue() instanceof ExtraFieldResult) {
                                 return Color.RED.render(fieldPrefix) + entry.getValue().visualize(context);
-                            } else if (entry.getValue() instanceof GrayResult) {
+                            } else if (entry.getValue() instanceof IgnoredFieldResult) {
                                 return Color.GRAY.render(fieldPrefix) + entry.getValue().visualize(context);
                             } else {
                                 return

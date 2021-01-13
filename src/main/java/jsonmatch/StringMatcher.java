@@ -5,8 +5,6 @@ import com.fasterxml.jackson.databind.node.JsonNodeType;
 import com.fasterxml.jackson.databind.node.TextNode;
 import lombok.Value;
 
-import java.util.Optional;
-
 @Value
 public class StringMatcher implements Matcher {
     String expectedValue;

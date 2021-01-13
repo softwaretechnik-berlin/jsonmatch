@@ -9,7 +9,6 @@ public class ArrayMatcherResult implements Result {
     private final List<Result> elementResults;
 
     public ArrayMatcherResult(List<Result> elementResults) {
-
         this.elementResults = elementResults;
     }
 
@@ -21,7 +20,7 @@ public class ArrayMatcherResult implements Result {
     @Override
     public String visualize() {
         return "[\n" +
-            indent(elementResults.stream().map(result -> result.visualize()).collect(Collectors.joining(",\n")) ) +  "\n"
+            indent(elementResults.stream().map(Result::visualize).collect(Collectors.joining(",\n"))) + "\n"
             + "]\n";
     }
 }

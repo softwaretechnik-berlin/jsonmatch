@@ -2,14 +2,14 @@ package jsonmatch;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Streams;
 import lombok.Value;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import static jsonmatch.NodeType.OBJECT;
 import static jsonmatch.util.Pair.pair;
@@ -29,36 +29,23 @@ public class ObjectMatcher implements Matcher {
             return new WrongTypeResult(OBJECT, NodeType.fromJackson(parsed.getNodeType()), parsed);
         }
         ObjectNode obj = (ObjectNode) parsed;
-        List<String> actualFieldNames = ImmutableList.copyOf(obj.fieldNames());
-        List<String> matcherFields = new ArrayList<>(fieldMatchers.keySet());
-        List<String> missingFieldNames = new ArrayList<>(matcherFields);
-        missingFieldNames.removeAll(actualFieldNames); // I feel so dirty;
+        List<String> missingFieldNames = new ArrayList<>(fieldMatchers.keySet());
+        obj.fieldNames().forEachRemaining(missingFieldNames::remove); // I feel so dirty;
 
-        List<Map.Entry<String, Result>> resultsForFields = actualFieldNames.stream().map(fieldName -> {
-            if (fieldMatchers.containsKey(fieldName)) {
-                return pair(fieldName, fieldMatchers.get(fieldName).match(parsed.get(fieldName)));
-            } else {
-                if (ignoreExtraFields) {
-                    return pair(fieldName, (Result) new GrayResult(parsed.get(fieldName)));
-                } else {
-                    return pair(fieldName, (Result) new ExtraFieldResult(parsed.get(fieldName)));
-                }
-            }
-        }).collect(Collectors.toList());
-
-        List<Map.Entry<String, Result>> missingFieldResults = missingFieldNames.stream()
-                .map(fieldName -> pair(fieldName, (Result) new MissingFieldResult(fieldName)))
-                .collect(Collectors.toList());
-
-        resultsForFields.addAll(missingFieldResults);
-        return new ObjectResult(
-                resultsForFields
-        );
+        return new ObjectResult(Streams.concat(
+                StreamSupport.stream(((Iterable<String>) obj::fieldNames).spliterator(), false).map(fieldName -> pair(fieldName,
+                        fieldMatchers.containsKey(fieldName) ? fieldMatchers.get(fieldName).match(parsed.get(fieldName)) :
+                        ignoreExtraFields ? new IgnoredFieldResult(parsed.get(fieldName)) :
+                        new ExtraFieldResult(parsed.get(fieldName))
+                )),
+                missingFieldNames.stream().map(fieldName -> pair(fieldName,
+                        (Result) new MissingFieldResult(fieldName)
+                ))
+        ).collect(Collectors.toList()));
     }
 
     public static class Builder implements MatcherBuilder {
         private final LinkedHashMap<String, Matcher> fieldMatchers = new LinkedHashMap<>();
-
         private boolean ignoreExtraFields = true;
 
         public Builder with(String fieldName, MatcherBuilder valueMatcherBuilder) {

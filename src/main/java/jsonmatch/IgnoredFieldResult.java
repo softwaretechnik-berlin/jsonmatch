@@ -4,11 +4,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import static jsonmatch.util.Color.GRAY;
 
-public class GrayResult implements Result {
+public class IgnoredFieldResult implements Result {
     private final JsonNode jsonNode;
 
-    public GrayResult(JsonNode jsonNode) {
-
+    public IgnoredFieldResult(JsonNode jsonNode) {
         this.jsonNode = jsonNode;
     }
 
