@@ -11,7 +11,6 @@ import static jsonmatch.TextUtils.indent;
 
 public class ObjectResult implements Result {
 
-
     private final List<Map.Entry<String, Result>> fieldResults;
 
     public ObjectResult(List<Map.Entry<String, Result>> fieldResults) {
@@ -26,7 +25,6 @@ public class ObjectResult implements Result {
     }
 
     public String visualize() {
-
         return
             "{\n" +
                 indent(
@@ -36,18 +34,16 @@ public class ObjectResult implements Result {
                             final VisualisationContext context = new VisualisationContext(fieldPrefix.length());
 
                             if (entry.getValue() instanceof MissingFieldResult) {
-
                                 return Color.RED.render(fieldPrefix) + entry.getValue().visualize(context);
-                                } else if (entry.getValue() instanceof ExtraFieldResult) {
-                                    return Color.RED.render(fieldPrefix) + entry.getValue().visualize(context);
-                                } else if (entry.getValue() instanceof GrayResult) {
-                                    return Color.GRAY.render(fieldPrefix) + entry.getValue().visualize(context);
-                                } else {
-                                    return
-                                        "\"" + entry.getKey() + "\": " + entry.getValue().visualize(context);
-                                }
+                            } else if (entry.getValue() instanceof ExtraFieldResult) {
+                                return Color.RED.render(fieldPrefix) + entry.getValue().visualize(context);
+                            } else if (entry.getValue() instanceof GrayResult) {
+                                return Color.GRAY.render(fieldPrefix) + entry.getValue().visualize(context);
+                            } else {
+                                return
+                                    "\"" + entry.getKey() + "\": " + entry.getValue().visualize(context);
                             }
-                        )
+                        })
                         .collect(Collectors.joining(",\n"))
                 ) +
                 "\n}\n";

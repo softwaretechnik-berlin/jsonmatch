@@ -16,38 +16,16 @@ import static jsonmatch.util.Pair.pair;
 
 @Value
 public class ObjectMatcher implements Matcher {
-    public static class Builder implements MatcherBuilder{
-        private LinkedHashMap<String, Matcher> fieldMatchers = new LinkedHashMap<>();
-
-        private boolean ignoreExtraFields = true;
-
-        public Builder with(String fieldName, MatcherBuilder valueMatcherBuilder) {
-            return with(fieldName, valueMatcherBuilder.build());
-        }
-        public Builder with(String fieldName, Matcher valueMatcher) {
-            fieldMatchers.put(fieldName, valueMatcher);
-            return this;
-        }
-
-        public Builder ignoreExtraFields(boolean b) {
-            this.ignoreExtraFields = b;
-            return this;
-        }
-        public ObjectMatcher build() {
-            return new ObjectMatcher(fieldMatchers, ignoreExtraFields);
-        }
-    }
+    LinkedHashMap<String, Matcher> fieldMatchers;
+    boolean ignoreExtraFields;
 
     public static Builder builder() {
         return new Builder();
     }
 
-    LinkedHashMap<String, Matcher> fieldMatchers;
-    boolean ignoreExtraFields;
-
     @Override
     public Result match(JsonNode parsed) {
-        if (! (parsed instanceof ObjectNode)) {
+        if (!(parsed instanceof ObjectNode)) {
             return new WrongTypeResult(OBJECT, NodeType.fromJackson(parsed.getNodeType()), parsed);
         }
         ObjectNode obj = (ObjectNode) parsed;
@@ -69,12 +47,36 @@ public class ObjectMatcher implements Matcher {
         }).collect(Collectors.toList());
 
         List<Map.Entry<String, Result>> missingFieldResults = missingFieldNames.stream()
-            .map(fieldName -> pair(fieldName, (Result) new MissingFieldResult(fieldName)))
-            .collect(Collectors.toList());
+                .map(fieldName -> pair(fieldName, (Result) new MissingFieldResult(fieldName)))
+                .collect(Collectors.toList());
 
         resultsForFields.addAll(missingFieldResults);
         return new ObjectResult(
-            resultsForFields
+                resultsForFields
         );
+    }
+
+    public static class Builder implements MatcherBuilder {
+        private final LinkedHashMap<String, Matcher> fieldMatchers = new LinkedHashMap<>();
+
+        private boolean ignoreExtraFields = true;
+
+        public Builder with(String fieldName, MatcherBuilder valueMatcherBuilder) {
+            return with(fieldName, valueMatcherBuilder.build());
+        }
+
+        public Builder with(String fieldName, Matcher valueMatcher) {
+            fieldMatchers.put(fieldName, valueMatcher);
+            return this;
+        }
+
+        public Builder ignoreExtraFields(boolean b) {
+            this.ignoreExtraFields = b;
+            return this;
+        }
+
+        public ObjectMatcher build() {
+            return new ObjectMatcher(fieldMatchers, ignoreExtraFields);
+        }
     }
 }

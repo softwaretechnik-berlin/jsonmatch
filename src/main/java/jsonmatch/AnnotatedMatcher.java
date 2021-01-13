@@ -6,12 +6,12 @@ import lombok.Value;
 @Value
 public class AnnotatedMatcher implements Matcher {
 
-    Matcher annotatedMatcher;
+    Matcher matcher;
     String annotation;
 
     @Override
     public Result match(JsonNode parsed) {
-        return new AnnotatedResult(annotatedMatcher.match(parsed), annotation);
+        return new AnnotatedResult(matcher.match(parsed), annotation);
     }
 
 }

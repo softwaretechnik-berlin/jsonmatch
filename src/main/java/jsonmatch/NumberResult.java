@@ -11,7 +11,7 @@ public class NumberResult implements Result {
 
     @Override
     public boolean isMatch() {
-            return expectedValue.equals(actualValue.numberValue());
+        return expectedValue.equals(actualValue.numberValue());
     }
 
     @Override
@@ -19,6 +19,6 @@ public class NumberResult implements Result {
         if (isMatch())
             return Color.GREEN.render(actualValue.toPrettyString());
         else
-            return Color.RED.render(actualValue.toPrettyString()) + " expected \"" + expectedValue+"\"";
+            return Color.RED.render(actualValue.toPrettyString()) + " expected \"" + expectedValue + "\"";
     }
 }

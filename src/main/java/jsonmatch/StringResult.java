@@ -9,11 +9,9 @@ public class StringResult implements Result {
     String expectedValue;
     TextNode actualValue;
 
-
     @Override
     public boolean isMatch() {
-            return expectedValue.equals(actualValue.asText());
-
+        return expectedValue.equals(actualValue.asText());
     }
 
     @Override
@@ -21,6 +19,6 @@ public class StringResult implements Result {
         if (isMatch())
             return Color.GREEN.render(actualValue.toPrettyString());
         else
-            return Color.RED.render(actualValue.toPrettyString()) + " expected \"" + expectedValue+"\"";
+            return Color.RED.render(actualValue.toPrettyString()) + " expected \"" + expectedValue + "\"";
     }
 }

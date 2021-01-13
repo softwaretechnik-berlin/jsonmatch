@@ -14,7 +14,6 @@ import java.io.IOException;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static jsonmatch.JsonMatch.*;
 import static jsonmatch.util.Color.*;
-import static jsonmatch.util.ConsoleUtils.ANSI_RESET;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -24,15 +23,15 @@ import static org.junit.Assert.assertTrue;
  * [![Build Status](https://travis-ci.com/softwaretechnik-berlin/jsonmatch.svg?branch=main)](https://travis-ci.com/softwaretechnik-berlin/jsonmatch)
  * [![Maven Central](https://img.shields.io/maven-central/v/berlin.softwaretechnik/jsonmatch.svg?maxAge=3600)](https://mvnrepository.com/artifact/berlin.softwaretechnik/jsonmatch)
  *
- * `jsonmatch` is a library that helps verifying JSON results
+ * `jsonmatch` is a library that helps with verifying JSON results
  * in test cases. It provides a DSL to specify expectations,
- * which is much nicer to use in java than providing, e.g.
- * json string literals. It also provides a visualisation of
- * the test result, that provides a view at the actual result,
+ * which is much nicer to use in Java than providing, e.g.
+ * JSON string literals. It also provides a visualisation of
+ * the test result that provides a view of the actual result,
  * projected through the expectation that has been set up.
- * Currently the visualisation uses ansi coloured output.
+ * Currently the visualisation uses ANSI coloured output.
  *
- * How to start with maven:
+ * How to start with Maven:
  *
  * ~~~.xml
  * <dependency>
@@ -42,7 +41,7 @@ import static org.junit.Assert.assertTrue;
  *     <scope>test</scope> <!-- If you only want to use jsonmatch in your tests. -->
  * </dependency>
  * ~~~
- * **Note**: This file is generate from the [acceptance test](src/test/java/jsonmatch/MatchingTest.java). To make
+ * **Note**: This file is generated from the [acceptance test](src/test/java/jsonmatch/MatchingTest.java). To make
  * changes please edit the acceptance test.
  * 
  * Let's look at some examples.
@@ -53,7 +52,7 @@ import static org.junit.Assert.assertTrue;
 public class MatchingTest {
 
     @Rule
-    public DocufierRule doc = new DocufierRule();
+    public final DocufierRule doc = new DocufierRule();
 
     /**
      * The happy path case:

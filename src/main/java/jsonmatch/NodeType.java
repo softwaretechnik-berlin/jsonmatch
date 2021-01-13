@@ -2,8 +2,6 @@ package jsonmatch;
 
 import com.fasterxml.jackson.databind.node.JsonNodeType;
 
-
-
 public enum NodeType {
 
     ARRAY("Array"),
@@ -13,24 +11,22 @@ public enum NodeType {
     NUMBER("Number"),
     ;
 
-    public static NodeType fromJackson(JsonNodeType jacksonType) {
-        switch (jacksonType) {
-            case ARRAY: return(ARRAY);
-            case OBJECT: return(OBJECT);
-            case STRING: return(STRING);
-            case BOOLEAN: return(BOOLEAN);
-            case NUMBER: return (NUMBER);
-        }
-        throw new RuntimeException("Could not map '" + jacksonType + "' to NodeType");
-    }
+    private final String printableString;
 
-    private NodeType(String printableString) {
+    NodeType(String printableString) {
         this.printableString = printableString;
     }
 
-    private final String printableString;
-
-
+    public static NodeType fromJackson(JsonNodeType jacksonType) {
+        switch (jacksonType) {
+            case ARRAY: return ARRAY;
+            case OBJECT: return OBJECT;
+            case STRING: return STRING;
+            case BOOLEAN: return BOOLEAN;
+            case NUMBER: return NUMBER;
+        }
+        throw new RuntimeException("Could not map '" + jacksonType + "' to NodeType");
+    }
 
     @Override
     public String toString() {
