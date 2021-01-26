@@ -22,7 +22,37 @@ How to start with Maven:
 **Note**: This file is generated from the [acceptance test](src/test/java/jsonmatch/MatchingTest.java). To make
 changes please edit the acceptance test.
 
-Let's look at some examples.
+This is how `jsonmatch` can be used in a test:
+
+<pre><code>String result = <span style="color:green">"{\"a\":\"x\",\"b\":42,\"c\":\"X\",\"extra\":\"value\"}"</span>;
+
+assertMatches(result, object()
+    .with(<span style="color:green">"a"</span>, eq(<span style="color:green">"x"</span>))
+    .with(<span style="color:green">"b"</span>, eq(<span style="color:blue">42</span>))
+    .with(<span style="color:green">"c"</span>, eq(<span style="color:green">"y"</span>))
+    .with(<span style="color:green">"d"</span>, eq(<span style="color:green">"z"</span>))
+);</code></pre>
+
+If run in the IDE, the test failure will look like this:
+
+![](assertion-failure-intellij.png)
+
+The `assertMatches` method is actually not part of `jsonmatch` (yet).
+A possible implementation for JUnit4 could look like this:
+
+<pre><code>void assertMatches(String json, Matcher matcher) {
+    Result result = matcher.match(json);
+    if (result.isMatch()) {
+        return;
+    }
+    throw new AssertionFailedError("\nJson didn't match expectation:\n" + result.visualize());
+}</code></pre>
+
+Let's look at some more cases. We are using a special
+rendering of Java code, that allows us to have inline json literals
+and also we have an inline rendering of ANSI-coloured Strings. To take
+advantage of the full colouring make sure you look at this file
+in [github pages](https://softwaretechnik-berlin.github.io/jsonmatch/).
 
 Matching Simple Objects
 -----------------------
@@ -166,7 +196,7 @@ assertTrue(result.isMatch());</code></pre>
 
 Matching Arrays
 ---------------
-
+<p>
 We can also match elements of an array.
 Currently only an exact match is implemented, however
 more match modes, like all `ignoreExtraElements`,
@@ -205,7 +235,7 @@ assertEquals(«[
 
 Nested Objects
 --------------
-
+<p>
 We can also match on nested structures. Actually
 matchers support arbitrary nesting:
 
@@ -248,8 +278,8 @@ Here an example where a nested object is annotated.
             .with(<span style="color:green">"c"</span>, eq(<span style="color:green">"y"</span>))
             .with(<span style="color:green">"d"</span>, eq(<span style="color:green">"z"</span>))
             .build(),
-            <span style="color:green">"This is a nested structure."</span>
-        ))
+        <span style="color:green">"This is a nested structure."</span>
+    ))
     .build();
 
 Result result = matcher.match(«{

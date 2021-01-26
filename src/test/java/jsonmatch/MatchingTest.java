@@ -43,18 +43,64 @@ import static org.junit.Assert.assertTrue;
  * ~~~
  * **Note**: This file is generated from the [acceptance test](src/test/java/jsonmatch/MatchingTest.java). To make
  * changes please edit the acceptance test.
- * 
- * Let's look at some examples.
- * 
- * Matching Simple Objects
- * -----------------------
+ *
+ *
  */
 public class MatchingTest {
 
     @Rule
     public final DocufierRule doc = new DocufierRule();
 
+
     /**
+     * This is how `jsonmatch` can be used in a test:
+     */
+    @Test
+    @Ignore
+    public void useInAssertion() {
+        String result = "{\"a\":\"x\",\"b\":42,\"c\":\"X\",\"extra\":\"value\"}";
+
+        assertMatches(result, object()
+            .with("a", eq("x"))
+            .with("b", eq(42))
+            .with("c", eq("y"))
+            .with("d", eq("z"))
+        );
+    }
+
+    /**
+     * If run in the IDE, the test failure will look like this:
+     *
+     * ![](assertion-failure-intellij.png)
+     *
+     * The `assertMatches` method is actually not part of `jsonmatch` (yet).
+     * A possible implementation for JUnit4 could look like this:
+     */
+    private void assertMatches(String json, Matcher matcher) {
+        Result result = matcher.match(json);
+        if (result.isMatch()) {
+            return;
+        }
+        throw new AssertionFailedError("\nJson didn't match expectation:\n" + result.visualize());
+    }
+
+    /**
+     * [NO-DOC]
+     */
+    private void assertMatches(String json, MatcherBuilder matcherBuilder) {
+        assertMatches(json, matcherBuilder.build());
+    }
+
+    /**
+     * Let's look at some more cases. We are using a special
+     * rendering of Java code, that allows us to have inline json literals
+     * and also we have an inline rendering of ANSI-coloured Strings. To take
+     * advantage of the full colouring make sure you look at this file
+     * in [github pages](https://softwaretechnik-berlin.github.io/jsonmatch/).
+     *
+     * Matching Simple Objects
+     * -----------------------
+     *
      * The happy path case:
      */
     @Test
@@ -195,7 +241,7 @@ public class MatchingTest {
     /**
      * Matching Arrays
      * ---------------
-     * 
+     * <p>
      * We can also match elements of an array.
      * Currently only an exact match is implemented, however
      * more match modes, like all `ignoreExtraElements`,
@@ -241,7 +287,7 @@ public class MatchingTest {
     /**
      * Nested Objects
      * --------------
-     * 
+     * <p>
      * We can also match on nested structures. Actually
      * matchers support arbitrary nesting:
      */
@@ -284,8 +330,8 @@ public class MatchingTest {
                     .with("c", eq("y"))
                     .with("d", eq("z"))
                     .build(),
-                    "This is a nested structure."
-                ))
+                "This is a nested structure."
+            ))
             .build();
 
         Result result = matcher.match(doc.tap("{\"a\":\"x\",\"b\":{\"c\": \"y\", \"d\": \"z\"}}", this::prettyJson));
@@ -335,44 +381,9 @@ public class MatchingTest {
     /**
      * [NO-DOC]
      */
-    @Test
-    @Ignore
-    public void useInAssertion() {
-        assertMatches("{\"a\":\"x\"}", object()
-            .with("a", eq("x"))
-            .with("b", object()
-                .with("c", eq("y"))
-                .with("d", eq("z"))
-            )
-        );
-    }
-
-    /**
-     * [NO-DOC]
-     */
-    private void assertMatches(String json, MatcherBuilder matcherBuilder) {
-        assertMatches(json, matcherBuilder.build());
-    }
-
-    /**
-     * [NO-DOC]
-     */
-    private void assertMatches(String json, Matcher matcher) {
-        Result result = matcher.match(json);
-        if (result.isMatch()) {
-            return;
-        }
-        throw new AssertionFailedError("\n" + result.visualize());
-    }
-
-
-    /**
-     * [NO-DOC]
-     */
     void assertEquals(String expected, String actual) {
         System.out.println(actual);
         Assert.assertEquals(expected, actual);
-
     }
 
     /**
@@ -400,5 +411,4 @@ public class MatchingTest {
                 .replace(GRAY.getAnsi(), "<span style=\"color:gray\">")
             ;
     }
-
 }
