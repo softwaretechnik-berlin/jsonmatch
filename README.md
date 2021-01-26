@@ -48,6 +48,19 @@ A possible implementation for JUnit4 could look like this:
     throw new AssertionFailedError("\nJson didn't match expectation:\n" + result.visualize());
 }</code></pre>
 
+`jsonmatch` has a couple of static factory methods that serve as the
+main interface, that can be imported as follows:
+
+~~~.java
+import jsonmatch.JsonMatch.*
+~~~
+
+The main concepts in jsonmatch are `Matcher`s that can try to match
+`JsonNode`s or `String`s and `Result`s that know whether they
+represent a successful match and that can visualize the match (attempt).
+
+More Examples
+-------------
 Let's look at some more cases. We are using a special
 rendering of Java code, that allows us to have inline json literals
 and also we have an inline rendering of ANSI-coloured Strings. To take
