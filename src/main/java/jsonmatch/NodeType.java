@@ -9,6 +9,7 @@ public enum NodeType {
     STRING("String"),
     BOOLEAN("Boolean"),
     NUMBER("Number"),
+    NULL("Null"),
     ;
 
     private final String printableString;
@@ -24,6 +25,7 @@ public enum NodeType {
             case STRING: return STRING;
             case BOOLEAN: return BOOLEAN;
             case NUMBER: return NUMBER;
+            case NULL: return NULL;
         }
         throw new RuntimeException("Could not map '" + jacksonType + "' to NodeType");
     }

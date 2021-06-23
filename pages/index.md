@@ -369,3 +369,25 @@ assertEquals(«{
 »,
     result.visualize()
 );</code></pre>
+
+We can also match `null`:
+
+<pre><code>Matcher matcher = object()
+    .with(<span style="color:green">"a"</span>, eq(<span style="color:green">"x"</span>))
+    .with(<span style="color:green">"b"</span>, isNull())
+    .build();
+
+Result result = matcher.match(«{
+  "a" : "x",
+  "b" : null,
+  "z" : null
+}»);
+
+assertEquals(«{
+    "a": <span style="color:green">"x"</span>,
+    "b": <span style="color:green">null</span>,
+    <span style="color:gray">"z": </span><span style="color:gray">null</span>
+}
+», result.visualize());
+
+assertTrue(result.isMatch());</code></pre>

@@ -447,4 +447,47 @@ public class MatchingTest {
                 .replace(GRAY.getAnsi(), "<span style=\"color:gray\">")
             ;
     }
+
+    /** [NO-DOC] */
+    @Test
+    public void dealsWithNull(){
+            Matcher matcher = object()
+                .with("a", eq("x"))
+                .with("b", eq("y"))
+                .build();
+
+            Result result = matcher.match(doc.tap("{\"a\":\"x\",\"b\":null, \"z\": null}", this::prettyJson));
+
+            assertEquals(doc.tap("{\n" +
+                "    \"a\": \u001B[32m\"x\"\u001B[0m,\n" +
+                "    \"b\": \u001B[31mexpected <String>\u001B[0m but got <Null>,\n" +
+                "    \u001B[90m\"z\": \u001B[0m\u001B[90mnull\u001B[0m\n" +
+                "}\n", this::prettyAnsi), result.visualize());
+
+            assertFalse(result.isMatch());
+
+    }
+
+    /** We can also match `null`: */
+    @Test
+    public void expectNull(){
+        Matcher matcher = object()
+            .with("a", eq("x"))
+            .with("b", isNull())
+            .build();
+
+        Result result = matcher.match(doc.tap("{\"a\":\"x\",\"b\":null, \"z\": null}", this::prettyJson));
+
+        assertEquals(doc.tap("{\n" +
+            "    \"a\": \u001B[32m\"x\"\u001B[0m,\n" +
+            "    \"b\": \u001B[32mnull\u001B[0m,\n" +
+            "    \u001B[90m\"z\": \u001B[0m\u001B[90mnull\u001B[0m\n" +
+            "}\n", this::prettyAnsi), result.visualize());
+
+        assertTrue(result.isMatch());
+
+    }
+
+
+
 }

@@ -22,6 +22,6 @@ public class WrongTypeResult implements Result {
 
     @Override
     public String visualize() {
-        return Color.RED.render("<" + expectedType + ">") + " but got <" + actualType + ">";
+        return Color.RED.render("expected <" + expectedType + ">") + " but got <" + actualType + ">";
     }
 }

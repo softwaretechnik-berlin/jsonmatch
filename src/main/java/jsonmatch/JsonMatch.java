@@ -34,4 +34,8 @@ public class JsonMatch {
     public static Matcher annotate(Matcher matcher, String annotation) {
         return new AnnotatedMatcher(matcher, annotation);
     }
+
+    public static Matcher isNull() {
+        return new NullMatcher();
+    }
 }
