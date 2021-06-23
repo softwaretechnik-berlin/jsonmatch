@@ -119,6 +119,29 @@ assertEquals(«{
 
 assertTrue(result.isMatch());</code></pre>
 
+We can also choose to elide the values of ignored fields:
+
+<pre><code>Matcher matcher = object()
+    .elideIgnoredFieldValues(<span style="color:blue">true</span>)
+    .with(<span style="color:green">"a"</span>, eq(<span style="color:green">"x"</span>))
+    .with(<span style="color:green">"b"</span>, eq(<span style="color:green">"y"</span>))
+    .build();
+
+Result result = matcher.match(«{
+  "a" : "x",
+  "b" : "y",
+  "z" : 12
+}»);
+
+assertEquals(«{
+    "a": <span style="color:green">"x"</span>,
+    "b": <span style="color:green">"y"</span>,
+    <span style="color:gray">"z": </span><span style="color:gray">…</span>
+}
+», result.visualize());
+
+assertTrue(result.isMatch());</code></pre>
+
 If the matcher is configured not to ignore extra fields
 it will fail as follows:
 

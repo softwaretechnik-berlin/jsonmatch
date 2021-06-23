@@ -6,9 +6,11 @@ import static jsonmatch.util.Color.GRAY;
 
 public class IgnoredFieldResult implements Result {
     private final JsonNode jsonNode;
+    private final boolean elideValue;
 
-    public IgnoredFieldResult(JsonNode jsonNode) {
+    public IgnoredFieldResult(JsonNode jsonNode, boolean elideValue) {
         this.jsonNode = jsonNode;
+        this.elideValue = elideValue;
     }
 
     @Override
@@ -18,6 +20,6 @@ public class IgnoredFieldResult implements Result {
 
     @Override
     public String visualize() {
-        return GRAY.render(jsonNode.toPrettyString());
+        return GRAY.render(elideValue?  "…" : jsonNode.toPrettyString());
     }
 }

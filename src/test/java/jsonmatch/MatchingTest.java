@@ -162,6 +162,29 @@ public class MatchingTest {
     }
 
     /**
+     * We can also choose to elide the values of ignored fields:
+     */
+    @Test
+    public void simpleObjectMatchElideIgnoredFields() {
+        Matcher matcher = object()
+            .elideIgnoredFieldValues(true)
+            .with("a", eq("x"))
+            .with("b", eq("y"))
+            .build();
+
+        Result result = matcher.match(doc.tap("{\"a\":\"x\",\"b\":\"y\", \"z\": 12}", this::prettyJson));
+
+        assertEquals(doc.tap("{\n" +
+            "    \"a\": \u001B[32m\"x\"\u001B[0m,\n" +
+            "    \"b\": \u001B[32m\"y\"\u001B[0m,\n" +
+            "    \u001B[90m\"z\": \u001B[0m\u001B[90m…\u001B[0m\n" +
+            "}" +
+            "\n", this::prettyAnsi), result.visualize());
+
+        assertTrue(result.isMatch());
+    }
+
+    /**
      * If the matcher is configured not to ignore extra fields
      * it will fail as follows:
      */

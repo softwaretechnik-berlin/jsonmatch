@@ -18,6 +18,7 @@ import static jsonmatch.util.Pair.pair;
 public class ObjectMatcher implements Matcher {
     LinkedHashMap<String, Matcher> fieldMatchers;
     boolean ignoreExtraFields;
+    boolean elideIgnoredFieldValues;
 
     public static Builder builder() {
         return new Builder();
@@ -35,7 +36,7 @@ public class ObjectMatcher implements Matcher {
         return new ObjectResult(Streams.concat(
                 StreamSupport.stream(((Iterable<String>) obj::fieldNames).spliterator(), false).map(fieldName -> pair(fieldName,
                         fieldMatchers.containsKey(fieldName) ? fieldMatchers.get(fieldName).match(parsed.get(fieldName)) :
-                        ignoreExtraFields ? new IgnoredFieldResult(parsed.get(fieldName)) :
+                        ignoreExtraFields ? new IgnoredFieldResult(parsed.get(fieldName), elideIgnoredFieldValues) :
                         new ExtraFieldResult(parsed.get(fieldName))
                 )),
                 missingFieldNames.stream().map(fieldName -> pair(fieldName,
@@ -47,6 +48,7 @@ public class ObjectMatcher implements Matcher {
     public static class Builder implements MatcherBuilder {
         private final LinkedHashMap<String, Matcher> fieldMatchers = new LinkedHashMap<>();
         private boolean ignoreExtraFields = true;
+        private boolean elideIgnoredFieldValues = false;
 
         public Builder with(String fieldName, MatcherBuilder valueMatcherBuilder) {
             return with(fieldName, valueMatcherBuilder.build());
@@ -62,8 +64,13 @@ public class ObjectMatcher implements Matcher {
             return this;
         }
 
+        public Builder elideIgnoredFieldValues(boolean b) {
+            this.elideIgnoredFieldValues = b;
+            return this;
+        }
+
         public ObjectMatcher build() {
-            return new ObjectMatcher(fieldMatchers, ignoreExtraFields);
+            return new ObjectMatcher(fieldMatchers, ignoreExtraFields, elideIgnoredFieldValues);
         }
     }
 }
