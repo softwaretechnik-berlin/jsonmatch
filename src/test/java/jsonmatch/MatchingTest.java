@@ -37,7 +37,7 @@ import static org.junit.Assert.assertTrue;
  * <dependency>
  *     <groupId>berlin.softwaretechnik</groupId>
  *     <artifactId>jsonmatch</artifactId>
- *     <version>0.0.5</version>
+ *     <version>0.0.6</version>
  *     <scope>test</scope> <!-- If you only want to use jsonmatch in your tests. -->
  * </dependency>
  * ~~~
