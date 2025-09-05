@@ -27,7 +27,7 @@ find . -name target -prune -exec rm -r {} \;
 sed -i "" -E "s%(.*)<version>[^<]*</version>%\1<version>${version}</version>%g" src/test/java/jsonmatch/MatchingTest.java
 
 ./build.sh
-mvn package javadoc:jar source:jar
+mvn package javadoc:jar
 
 mv target/$JAR_NAME-VERSION.jar target/$JAR_NAME-${version}.jar
 mv target/$JAR_NAME-VERSION-sources.jar target/$JAR_NAME-${version}-sources.jar
