@@ -44,7 +44,7 @@ echo "Releasing version ${version}"
 mvn gpg:sign-and-deploy-file \
     -Dgpg.keyname=felix@leipold.ws \
     -Durl=$STAGING_URL \
-    -DrepositoryId=sonatype-nexus-staging \
+    -DrepositoryId=ossrh-staging-api \
     -DpomFile=target/pom.xml \
     -Dsources=target/$JAR_NAME-${version}-sources.jar \
     -Djavadoc=target/$JAR_NAME-${version}-javadoc.jar \
