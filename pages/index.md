@@ -15,11 +15,11 @@ How to start with Maven:
 <dependency>
     <groupId>berlin.softwaretechnik</groupId>
     <artifactId>jsonmatch</artifactId>
-    <version>0.0.6</version>
+    <version>0.0.7</version>
     <scope>test</scope> <!-- If you only want to use jsonmatch in your tests. -->
 </dependency>
 ~~~
-**Note**: This file is generated from the [acceptance test](https://github.com/softwaretechnik-berlin/jsonmatch/blob/main/src/test/java/jsonmatch/MatchingTest.java). To make
+**Note**: This file is generated from the [acceptance test](https://github.com/softwaretechnik-berlin/jsonmatch/blob/main/src/test/java/jsonmatch/jsonmatch.MatchingTest.java). To make
 changes please edit the acceptance test.
 
 This is how `jsonmatch` can be used in a test:

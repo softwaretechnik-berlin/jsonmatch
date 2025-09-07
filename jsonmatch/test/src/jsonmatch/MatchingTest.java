@@ -2,11 +2,9 @@ package jsonmatch;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import junit.framework.AssertionFailedError;
+import org.buildobjects.doctest.Docufier;
 import org.buildobjects.doctest.runtime.junit4.DocufierRule;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -37,11 +35,11 @@ import static org.junit.Assert.assertTrue;
  * <dependency>
  *     <groupId>berlin.softwaretechnik</groupId>
  *     <artifactId>jsonmatch</artifactId>
- *     <version>0.0.6</version>
+ *     <version>0.0.7</version>
  *     <scope>test</scope> <!-- If you only want to use jsonmatch in your tests. -->
  * </dependency>
  * ~~~
- * **Note**: This file is generated from the [acceptance test](src/test/java/jsonmatch/MatchingTest.java). To make
+ * **Note**: This file is generated from the [acceptance test](src/test/java/jsonmatch/jsonmatch.MatchingTest.java). To make
  * changes please edit the acceptance test.
  *
  *
@@ -485,9 +483,12 @@ public class MatchingTest {
             "}\n", this::prettyAnsi), result.visualize());
 
         assertTrue(result.isMatch());
-
     }
 
 
+    @AfterClass
+    public static void docify() throws IOException {
+        new Docufier("jsonmatch/test/src", "target/doc");
+    }
 
 }
