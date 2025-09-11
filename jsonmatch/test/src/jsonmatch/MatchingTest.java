@@ -488,7 +488,7 @@ public class MatchingTest {
 
     @AfterClass
     public static void docify() throws IOException {
-        new Docufier("jsonmatch/test/src", "target/doc");
+        new Docufier("jsonmatch/test/src", "./");
     }
 
 }
