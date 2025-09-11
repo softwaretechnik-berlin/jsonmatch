@@ -269,8 +269,7 @@ assertEquals(«[
 ]
 », result.visualize());</code></pre>
 
-Nested Objects
---------------
+## Nested Objects
 <p>
 We can also match on nested structures. Actually
 matchers support arbitrary nesting:
