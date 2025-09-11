@@ -39,7 +39,7 @@ import static org.junit.Assert.assertTrue;
  *     <scope>test</scope> <!-- If you only want to use jsonmatch in your tests. -->
  * </dependency>
  * ~~~
- * **Note**: This file is generated from the [acceptance test](https://github.com/softwaretechnik-berlin/jsonmatch/blob/main/jsonmatch/test/src/jsonmatch/jsonmatch.MatchingTest.java). To make
+ * **Note**: This file is generated from the [acceptance test](https://github.com/softwaretechnik-berlin/jsonmatch/blob/main/jsonmatch/test/src/jsonmatch/MatchingTest.java). To make
  * changes please edit the acceptance test.
  *
  *
