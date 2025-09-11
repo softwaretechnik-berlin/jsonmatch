@@ -1,14 +1,19 @@
+//| mvnDeps: ["org.buildobjects:docufier:0.1.3"]
 package build
 
 import mill.*
 import javalib.*
-import mill.javalib.Assembly.*
+import mill.api.BuildCtx
 import mill.javalib.publish.*
+import org.buildobjects.doctest.Docufier
 
 import java.io.File
 
-object jsonmatch extends JavaModule, PublishModule {
-  def publishVersion: T[String] = sys.env.getOrElse("PUBLISH_VERSION", throw new IllegalStateException("Need PUBLISH_VERSION to publish"))
+object jsonmatch extends JavaModule, SonatypeCentralPublishModule {
+
+  def publishVersion: T[String] = Task.Input{
+    Task.env.getOrElse("PUBLISH_VERSION", throw new Exception("PUBLISH_VERSION not set."))
+  }
 
   def mvnDeps = Seq(
     mvn"com.fasterxml.jackson.core:jackson-core:2.17.0",
@@ -49,5 +54,26 @@ object jsonmatch extends JavaModule, PublishModule {
       mvn"org.buildobjects:docufier:0.1.3",
       mvn"org.hamcrest:hamcrest:3.0",
     )
+
+    // running the tests in the main directory, so that we can get the output
+    override def testSandboxWorkingDir: T[Boolean] = Task {
+      false
+    }
+
+    def docufy = Task {
+      BuildCtx.withFilesystemCheckerDisabled {
+        os.copy(BuildCtx.workspaceRoot / "target", os.pwd / "target", mergeFolders = true)
+        println("PWD: " + os.pwd)
+
+        println("The truth according to java.io: " + new File(".").getAbsoluteFile)
+
+        for pathRef: PathRef <- sources() yield {
+          // fixme: this guy doesn't honour os.pwd and the processes working directory hasn't been changed.
+          new Docufier(pathRef.path.toIO, Task.dest.toIO)
+        }
+      }
+
+      PathRef(Task.dest)
+    }
   }
 }

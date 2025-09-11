@@ -12,7 +12,7 @@ fi
 
 version="$1"
 
-export PUBLISH_VERSION=version
+export PUBLISH_VERSION="${version}"
 
 ensure_clean () {
   dirty=$(git status --porcelain)
@@ -22,8 +22,6 @@ ensure_clean () {
       exit 1
   fi >&2
 }
-
-ensure_clean
 
 find . -name target -prune -exec rm -r {} \;
 
@@ -44,7 +42,7 @@ previous_release_tag=$( git describe --abbrev=0 || git rev-list HEAD | tail -n 1
 
 git log ${previous_release_tag}..HEAD > /tmp/release-notes-candidate.txt
 
-vimr /tmp/release-notes-candidate.txt
+vim /tmp/release-notes-candidate.txt
 
 release_notes=$(cat /tmp/release-notes-candidate.txt)
 
