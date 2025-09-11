@@ -1,9 +1,15 @@
 package build
-import mill.*, javalib.*
+
+import mill.*
+import javalib.*
 import mill.javalib.Assembly.*
+import mill.javalib.publish.*
+
 import java.io.File
 
-object jsonmatch extends JavaModule {
+object jsonmatch extends JavaModule, PublishModule {
+  def publishVersion: T[String] = sys.env.getOrElse("PUBLISH_VERSION", throw new IllegalStateException("Need PUBLISH_VERSION to publish"))
+
   def mvnDeps = Seq(
     mvn"com.fasterxml.jackson.core:jackson-core:2.17.0",
     mvn"com.fasterxml.jackson.core:jackson-databind:2.17.0",
@@ -15,25 +21,33 @@ object jsonmatch extends JavaModule {
     mvn"com.google.guava:guava:33.4.8-jre",
   )
 
-    def compileMvnDeps = Seq(mvn"org.projectlombok:lombok:1.18.40")
+  def compileMvnDeps = Seq(mvn"org.projectlombok:lombok:1.18.40")
 
-    def processors = Task {
-      defaultResolver().classpath(Seq(mvn"org.projectlombok:lombok:1.18.40"))
-    }
+  def processors = Task {
+    defaultResolver().classpath(Seq(mvn"org.projectlombok:lombok:1.18.40"))
+  }
 
-    def javacOptions = Seq(
-      "-processorpath",
-      processors().map(_.path).mkString(File.pathSeparator)
+  def javacOptions = Seq(
+    "-processorpath",
+    processors().map(_.path).mkString(File.pathSeparator)
+  )
+
+  def pomSettings = PomSettings(
+    description = "Library for matching json output",
+    organization = "berlin.softwaretechnik",
+    url = "https://github.com/softwaretechnik-berlin/jsonmatch",
+    licenses = Seq(License.MIT),
+    versionControl = VersionControl.github("softwaretechnik-berlin", "jsonmatch"),
+    developers = Seq(Developer("fleipold", "Felix Leipold", "https://github.com/fleipold"))
+  )
+
+  object test extends JavaTests {
+    def testFramework = "com.novocode.junit.JUnitFramework"
+
+    def mvnDeps = Seq(
+      mvn"com.novocode:junit-interface:0.11",
+      mvn"org.buildobjects:docufier:0.1.3",
+      mvn"org.hamcrest:hamcrest:3.0",
     )
-
-    object test extends JavaTests {
-      def testFramework = "com.novocode.junit.JUnitFramework"
-      def mvnDeps = Seq(
-        mvn"com.novocode:junit-interface:0.11",
-        mvn"org.buildobjects:docufier:0.1.3",
-        mvn"org.hamcrest:hamcrest:3.0",
-      )
-    }
-
-
+  }
 }
